@@ -5,11 +5,11 @@ from libro.models import *
 
 
 # Create your views here.
-def HomeView(request):
+def Home(request):
     return render(request, 'index.html')
 
 
-def crearAutorView(request):
+def crearAutor(request):
     if request.method == 'POST':
         print(request.POST)
         autor_form = AutorForm(request.POST)
@@ -23,7 +23,7 @@ def crearAutorView(request):
         # print(request.POST)
     return render(request, 'libro/crear_autor.html', {'autor_form': autor_form})
 
-# def crearAutorView(request):
+# def crearAutor(request):
 #     if request.method == 'POST':
 #         # print(request.POST)
 #         nom = request.POST.get('nombre')
@@ -36,13 +36,13 @@ def crearAutorView(request):
 #     render(request, 'libro/crear_autor.html')
 
 
-def listarAutorView(request):
+def listarAutor(request):
     # autores = Autor.objects.all()
     autores = Autor.objects.filter(estado=True)
     return render(request, 'libro/listar_autor.html', {'autores': autores})
 
 
-def editarAutorView(request, id):
+def editarAutor(request, id):
     autor_form = None
     error = None
     try:
@@ -61,14 +61,14 @@ def editarAutorView(request, id):
 
 
 # eliminar logica
-def eliminarAutorView(request, id):
+def eliminarAutor(request, id):
     autor = Autor.objects.get(id=id)
     autor.estado = False
     autor.save()
     return redirect('libro:listar_autor')
 
 # eliminar mediante metodo post
-# def eliminarAutorView(request, id):
+# def eliminarAutor(request, id):
 #     autor = Autor.objects.get(id=id)
 #     if request.method == 'POST':
 #         autor.delete()
@@ -76,7 +76,7 @@ def eliminarAutorView(request, id):
 #     return render(request, 'libro/eliminar_autor.html', {'autor': autor})
 
 # eliminar mediante metodo get
-# def eliminarAutorView(request, id):
+# def eliminarAutor(request, id):
 #     autor = Autor.objects.get(id=id)
 #     autor.delete()
 #     return redirect('libro:listar_autor')
