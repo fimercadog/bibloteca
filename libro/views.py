@@ -11,8 +11,10 @@ def HomeView(request):
 
 def crearAutorView(request):
     if request.method == 'POST':
+        print(request.POST)
         autor_form = AutorForm(request.POST)
         if autor_form.is_valid():
+            # nom=autor_form.cleaned_data['nombre']
             autor_form.save()
             return redirect('index')
     else:
@@ -20,6 +22,18 @@ def crearAutorView(request):
         # print(autor_form)
         # print(request.POST)
     return render(request, 'libro/crear_autor.html', {'autor_form': autor_form})
+
+# def crearAutorView(request):
+#     if request.method == 'POST':
+#         # print(request.POST)
+#         nom = request.POST.get('nombre')
+#         ape = request.POST.get('apellidos')
+#         nacio = request.POST.get('nacionalidad')
+#         desc = request.POST.get('descripcion')
+#         autor = Autor(nombre=nom, apellidos= ape, nacionalidad= nacio,descripcion= desc)
+#         autor.save()
+#         return redirect('index')
+#     render(request, 'libro/crear_autor.html')
 
 
 def listarAutorView(request):
@@ -52,7 +66,6 @@ def eliminarAutorView(request, id):
     autor.estado = False
     autor.save()
     return redirect('libro:listar_autor')
-
 
 # eliminar mediante metodo post
 # def eliminarAutorView(request, id):
