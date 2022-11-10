@@ -15,8 +15,17 @@
     {% endblock extracss %}
 </head>
 <body>
-    {% block body %}
-        <h1>index</h1>
-    {% endblock body %}
+{% block body %}
+    <h1>index</h1>
+    <br>
+    <table>
+        <tr>
+            <td><a href="{% url 'libro:listar_autor' %}">Listar</a></td>
+            <td><a href="{% url 'libro:crear_autor' %}">Crear</a></td>
+        </tr>
+
+
+    </table>
+{% endblock body %}
 </body>
 </html>

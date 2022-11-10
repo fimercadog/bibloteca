@@ -23,7 +23,8 @@ def crearAutorView(request):
 
 
 def listarAutorView(request):
-    autores = Autor.objects.all()
+    # autores = Autor.objects.all()
+    autores = Autor.objects.filter(estado=True)
     return render(request, 'libro/listar_autor.html', {'autores': autores})
 
 
@@ -43,3 +44,26 @@ def editarAutorView(request, id):
         error = e
 
     return render(request, 'libro/crear_autor.html', {'autor_form': autor_form, 'error': error})
+
+
+# eliminar logica
+def eliminarAutorView(request, id):
+    autor = Autor.objects.get(id=id)
+    autor.estado = False
+    autor.save()
+    return redirect('libro:listar_autor')
+
+
+# eliminar mediante metodo post
+# def eliminarAutorView(request, id):
+#     autor = Autor.objects.get(id=id)
+#     if request.method == 'POST':
+#         autor.delete()
+#         return redirect('libro:listar_autor')
+#     return render(request, 'libro/eliminar_autor.html', {'autor': autor})
+
+# eliminar mediante metodo get
+# def eliminarAutorView(request, id):
+#     autor = Autor.objects.get(id=id)
+#     autor.delete()
+#     return redirect('libro:listar_autor')
