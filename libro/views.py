@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from django.core.exceptions import ObjectDoesNotExist
 from libro.forms import *
 from libro.models import *
 
@@ -27,12 +28,18 @@ def listarAutorView(request):
 
 
 def editarAutorView(request, id):
-    autor = Autor.objects.get(id=id)  # get trae 1 - filter trae una lista
-    if request.method == 'GET':
-        autor_form = AutorForm(instance=autor)
-    else:
-        autor_form = AutorForm(request.POST, instance=autor)
-        if autor_form.is_valid():
-            autor_form.save()
-        return redirect('index')
-    return render(request, 'libro/crear_autor.html', {'autor_form': autor_form})
+    autor_form = None
+    error = None
+    try:
+        autor = Autor.objects.get(id=id)  # get trae 1 - filter trae una lista
+        if request.method == 'GET':
+            autor_form = AutorForm(instance=autor)
+        else:
+            autor_form = AutorForm(request.POST, instance=autor)
+            if autor_form.is_valid():
+                autor_form.save()
+            return redirect('index')
+    except ObjectDoesNotExist as e:
+        error = e
+
+    return render(request, 'libro/crear_autor.html', {'autor_form': autor_form, 'error': error})
